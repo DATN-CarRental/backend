@@ -2,7 +2,7 @@ import { validate } from '../utils/validator.js'
 import { checkSchema } from 'express-validator'
 import { HTTP_STATUS } from '../constants/httpStatus.js'
 import { USER_MESSAGES } from '../constants/messages.js'
-import usersService from '../services/usersService.js'
+import * as usersService from '../services/usersService.js'
 import User from '../models/users.js'
 import { hashPassword } from '../utils/crypto.js'
 import { ErrorWithStatus } from '../models/error.js'
@@ -20,23 +20,6 @@ config()
 export const registerValidator = validate(
   checkSchema(
     {
-      // username: {
-      //   notEmpty: {
-      //     errorMessage: USER_MESSAGES.NAME_IS_REQUIRED
-      //   },
-      //   isString: {
-      //     errorMessage: USER_MESSAGES.NAME_MUST_BE_A_STRING
-      //   },
-      //   isLength: {
-      //     options: {
-      //       min: 1,
-      //       max: 100
-      //     },
-      //     errorMessage: USER_MESSAGES.NAME_LENGTH_MUST_BE_FROM_1_TO_100
-      //   },
-
-      //   trim: true
-      // },
       email: {
         notEmpty: {
           errorMessage: USER_MESSAGES.EMAIL_IS_REQUIRED

@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     dateOfBirth: {
       type: String
     },
-    driverLicenseId: {
+    driverLicenses: {
       type: mongoose.Types.ObjectId,
       ref: 'DriverLicenses'
     },
@@ -41,9 +41,13 @@ const userSchema = new mongoose.Schema(
       type: String
     },
     status: {
-      type: String,
+      type: String, 
       enum: ['active', 'inactive'],
       default: 'active'
+    },
+    isConfirmed: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
