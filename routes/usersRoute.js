@@ -9,17 +9,17 @@ import {
 } from '../middlewares/usersMiddleware.js'
 import { wrapRequestHandler } from '../utils/handlers.js'
 import {
-  registerController,
-  loginController,
-  googleController,
-  getUserController,
-  updateUserController,
-  generateOTPController,
-  verifyOTPController,
-  resetPasswordController,
-  registerMailController,
-  getUserByEmailController,
-  changePasswordController
+  register,
+  login,
+  loginGoogle,
+  getUser,
+  updateUser,
+  resetPassword,
+  getUserByEmail,
+  changePassword,
+  generateOTP,
+  verifyOTP,
+  registerMail
 } from '../controllers/usersController.js'
 import uploadCloud from '../utils/cloudinary.config.js'
 const usersRoutes = express.Router()
@@ -30,7 +30,7 @@ const usersRoutes = express.Router()
  * Method: POST
  * Body:{ email: string, password: string, confirm_password: string, date_of_birth: ISO8601}
  */
-usersRoutes.post('/register', registerValidator, wrapRequestHandler(registerController))
+usersRoutes.post('/register', registerValidator, wrapRequestHandler(register))
 
 /**
  * Description: Login a user
@@ -38,7 +38,7 @@ usersRoutes.post('/register', registerValidator, wrapRequestHandler(registerCont
  * Method: POST
  * Body:{ email: string, password: string}
  */
-usersRoutes.post('/login', loginValidator, wrapRequestHandler(loginController))
+usersRoutes.post('/login', loginValidator, wrapRequestHandler(login))
 
 /**
  * Description: OAuth Google Account
@@ -46,7 +46,7 @@ usersRoutes.post('/login', loginValidator, wrapRequestHandler(loginController))
  * Method: POST
  * Body:{ email: string, password: string,profilePicture: string}
  */
-usersRoutes.post('/google', wrapRequestHandler(googleController))
+usersRoutes.post('/google', wrapRequestHandler(loginGoogle))
 
 /**
  * Description: Get User
@@ -54,7 +54,7 @@ usersRoutes.post('/google', wrapRequestHandler(googleController))
  * Method: GET
  * Headers: {Authorization: Bearer <access_token>}
  */
-usersRoutes.get('/get-user', accessTokenValidator, wrapRequestHandler(getUserController))
+usersRoutes.get('/get-user', accessTokenValidator, wrapRequestHandler(getUser))
 
 /**
  * Description: Get User
@@ -62,7 +62,7 @@ usersRoutes.get('/get-user', accessTokenValidator, wrapRequestHandler(getUserCon
  * Method: GET
  * body: {email: string}
  */
-usersRoutes.post('/get-user-by-email', wrapRequestHandler(getUserByEmailController))
+usersRoutes.post('/get-user-by-email', wrapRequestHandler(getUserByEmail))
 
 /**
  * Description: Update User
@@ -75,8 +75,24 @@ usersRoutes.put(
   uploadCloud.single('profilePicture'),
   accessTokenValidator,
 
-  wrapRequestHandler(updateUserController)
+  wrapRequestHandler(updateUser)
 )
+
+/**
+ * Description: Reset Password
+ * Path: /reset-password
+ * Method: PUT
+ */
+usersRoutes.put('/reset-password', wrapRequestHandler(resetPassword))
+
+/**
+ * Description: Register Mail
+ * Path: /register-mail
+ * Method: POST
+ * Body: {email: String,name: string, text: String, subject: String}
+ */
+
+usersRoutes.put('/change-password', accessTokenValidator, wrapRequestHandler(changePassword))
 
 /**
  * Description: Generate OTP
@@ -84,21 +100,14 @@ usersRoutes.put(
  * Method: GET
  * Body: {email: String}
  */
-usersRoutes.get('/generate-otp', wrapRequestHandler(generateOTPController))
+usersRoutes.get('/generate-otp', wrapRequestHandler(generateOTP))
 
 /**
  * Description: Verify OTP
  * Path: /verify-otp
  * Method: GET
  */
-usersRoutes.get('/verify-otp/:code', wrapRequestHandler(verifyOTPController))
-
-/**
- * Description: Reset Password
- * Path: /reset-password
- * Method: PUT
- */
-usersRoutes.put('/reset-password', wrapRequestHandler(resetPasswordController))
+usersRoutes.get('/verify-otp/:code', wrapRequestHandler(verifyOTP))
 
 /**
  * Description: Register Mail
@@ -106,15 +115,6 @@ usersRoutes.put('/reset-password', wrapRequestHandler(resetPasswordController))
  * Method: POST
  * Body: {email: String,name: string, text: String, subject: String}
  */
-
-/**
- * Description: Register Mail
- * Path: /register-mail
- * Method: POST
- * Body: {email: String,name: string, text: String, subject: String}
- */
-usersRoutes.post('/register-mail', wrapRequestHandler(registerMailController))
-
-usersRoutes.put('/change-password', accessTokenValidator, wrapRequestHandler(changePasswordController))
+usersRoutes.post('/register-mail', wrapRequestHandler(registerMail))
 
 export default usersRoutes

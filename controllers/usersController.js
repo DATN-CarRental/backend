@@ -1,10 +1,9 @@
 import { USER_MESSAGES } from '../constants/messages.js'
-import usersService from '../services/usersService.js'
-import otpGenerator from 'otp-generator'
+import * as usersService from '../services/usersService.js'
 import { transporter, MailGenerator } from '../utils/nodemailerConfig.js'
 import { config } from 'dotenv'
 config()
-export const registerController = async (req, res, next) => {
+export const register = async (req, res, next) => {
   const result = await usersService.register(req.body)
 
   return res.json({
@@ -15,7 +14,7 @@ export const registerController = async (req, res, next) => {
   })
 }
 
-export const loginController = async (req, res) => {
+export const login = async (req, res) => {
   const result = await usersService.login(req.user)
 
   return res.json({
@@ -27,7 +26,7 @@ export const loginController = async (req, res) => {
   })
 }
 
-export const googleController = async (req, res, next) => {
+export const loginGoogle = async (req, res, next) => {
   console.log(req.body)
   const result = await usersService.google(req.body)
 
@@ -40,7 +39,7 @@ export const googleController = async (req, res, next) => {
   })
 }
 
-export const getUserController = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
   const result = await usersService.getUser(req.decoded_authorization)
   return res.json({
     message: USER_MESSAGES.GET_PROFILE_SUCCESS,
@@ -49,9 +48,10 @@ export const getUserController = async (req, res, next) => {
   })
 }
 
-export const updateUserController = async (req, res, next) => {
+export const updateUser = async (req, res, next) => {
   const user_id = req.params.userId
-  const result = await usersService.updateUser(user_id, req.body, req?.file)
+  const { fullname, address, phoneNumber, gender, dateOfBirth } = req.body
+  const result = await usersService.updateUser(user_id, { fullname, address, phoneNumber, gender, dateOfBirth }, req?.file)
   return res.json({
     message: USER_MESSAGES.UPDATE_PROFILE_SUCCESS,
     result: result.updateUser,
@@ -59,33 +59,7 @@ export const updateUserController = async (req, res, next) => {
   })
 }
 
-export const generateOTPController = async (req, res, next) => {
-  const email = req.body.email
-  req.app.locals.OTP = await otpGenerator.generate(6, {
-    lowerCaseAlphabets: false,
-    upperCaseAlphabets: false,
-    specialChars: false
-  })
-
-  return res.json({ code: req.app.locals.OTP, email })
-}
-
-export const verifyOTPController = async (req, res, next) => {
-  const { code } = req.params
-  const email = req.body.email
-  if (parseInt(req.app.locals.OTP) === parseInt(code)) {
-    req.app.locals.OTP = null
-    req.app.locals.resetSession = true
-    return res.json({
-      message: 'Verify Successsfully!',
-      email
-    })
-  }
-
-  return res.json({ message: 'Invalid OTP', email })
-}
-
-export const resetPasswordController = async (req, res, next) => {
+export const resetPassword = async (req, res, next) => {
   if (!req.app.locals.resetSession) {
     return res.json({ message: 'Session expired!' })
   }
@@ -96,7 +70,35 @@ export const resetPasswordController = async (req, res, next) => {
   })
 }
 
-export const registerMailController = async (req, res, next) => {
+export const getUserByEmail = async (req, res, next) => {
+  const result = await usersService.getUserByEmail(req.body)
+
+  return res.json({
+    message: USER_MESSAGES.GET_USERS_SUCCESS,
+    result: result
+  })
+}
+
+export const changePassword = async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body
+  const userId = req.decoded_authorization.user_id // Assuming you store user_id in the decoded authorization token
+
+  try {
+    // Perform logic to change the password using the usersService
+    const result = await usersService.changePassword(userId, oldPassword, newPassword)
+
+    return res.json({
+      message: USER_MESSAGES.CHANGE_PASSWORD_SUCCESS,
+      result: result.user
+    })
+  } catch (error) {
+    // Handle errors appropriately
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+export const registerMail = async (req, res, next) => {
   const { name, email, text, subject } = req.body
 
   // body of the email
@@ -126,30 +128,28 @@ export const registerMailController = async (req, res, next) => {
     .catch((error) => res.status(500).send({ error }))
 }
 
-export const getUserByEmailController = async (req, res, next) => {
-  const result = await usersService.getUserByEmail(req.body)
-
-  return res.json({
-    message: USER_MESSAGES.GET_USERS_SUCCESS,
-    result: result
+export const generateOTP = async (req, res, next) => {
+  const email = req.body.email
+  req.app.locals.OTP = await otpGenerator.generate(6, {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false
   })
+
+  return res.json({ code: req.app.locals.OTP, email })
 }
 
-export const changePasswordController = async (req, res, next) => {
-  const { oldPassword, newPassword } = req.body
-  const userId = req.decoded_authorization.user_id // Assuming you store user_id in the decoded authorization token
-
-  try {
-    // Perform logic to change the password using the usersService
-    const result = await usersService.changePassword(userId, oldPassword, newPassword)
-
+export const verifyOTP = async (req, res, next) => {
+  const { code } = req.params
+  const email = req.body.email
+  if (parseInt(req.app.locals.OTP) === parseInt(code)) {
+    req.app.locals.OTP = null
+    req.app.locals.resetSession = true
     return res.json({
-      message: USER_MESSAGES.CHANGE_PASSWORD_SUCCESS,
-      result: result.user
+      message: 'Verify Successsfully!',
+      email
     })
-  } catch (error) {
-    // Handle errors appropriately
-    console.error(error)
-    return res.status(500).json({ message: 'Internal Server Error' })
   }
+
+  return res.json({ message: 'Invalid OTP', email })
 }
