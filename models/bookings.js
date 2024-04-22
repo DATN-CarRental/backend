@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import moment from 'moment-timezone'
-import { ref } from 'yup'
 
 const bookingsSchema = new mongoose.Schema(
   {
