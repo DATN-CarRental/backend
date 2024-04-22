@@ -166,7 +166,6 @@ export const accessTokenValidator = validate(
           options: async (value, { req }) => {
             if (!value) {
               throw new ApiError(HTTP_STATUS.UNAUTHORIZED, "Invalid access token");
-              throw "abc"
             }
             const access_token = (value || '').split(' ')[1]
 
