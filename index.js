@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import { config } from 'dotenv'
 import couponsRoutes from './routes/couponsRoutes.js'
+import driverLicensesRoutes from './routes/driverLicensesRoutes.js'
 
 config()
 const app = express()
@@ -33,6 +34,7 @@ app.use('/cars', carsRoutes)
 app.use('/brands', brandsRoutes)
 app.use('/models', modelsRoutes)
 app.use('/coupons', couponsRoutes)
+app.use('/drivers', driverLicensesRoutes)
 
 // app.use(defaultErrorHandler)
 app.listen(process.env.PORT, () => {
