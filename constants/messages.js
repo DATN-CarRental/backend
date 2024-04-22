@@ -44,3 +44,12 @@ export const USER_MESSAGES = {
   UPDATE_PROFILE_SUCCESS: 'Update profile successfully',
   UPLOAD_IMAGE_SUCCESS: 'Upload image successfully'
 }
+
+export const CARS_MESSAGE = {
+  GET_CAR_SUCCESS: 'GetList car successfully',
+  CREATE_CAR_SUCCESS: 'Create car successfully',
+  UPDATE_CAR_SUCCESS: 'Update car successfully',
+  GET_CAR_SUCCESS: 'Get car successfully',
+  GET_CARS_SUCCESS: 'Get list cars successfully',
+  UPDATE_RATING_SUCCESS: 'Update rating successfully'
+}

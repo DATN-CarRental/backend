@@ -5,7 +5,7 @@ const ratingsSchema = new mongoose.Schema(
   {
     postBy: {
       type: mongoose.Types.ObjectId,
-      ref: "User"
+      ref: "Users"
     },
     carId: {
       type: mongoose.Types.ObjectId,

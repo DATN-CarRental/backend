@@ -4,7 +4,7 @@ const carsSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Types.ObjectId,
-      ref: 'User'
+      ref: 'Users'
     },
     brand: {
       type: mongoose.Types.ObjectId,
