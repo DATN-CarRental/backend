@@ -3,6 +3,7 @@ import usersRoutes from './routes/usersRoutes.js'
 import carsRoutes from './routes/carsRoutes.js'
 import brandsRoutes from './routes/brandsRoutes.js'
 import modelsRoutes from './routes/modelsRoutes.js'
+import contractsRoutes from './routes/contractsRoutes.js'
 import databaseServices from './services/databaseService.js'
 import bodyParser from 'body-parser'
 import express from 'express'
@@ -37,6 +38,7 @@ app.use('/models', modelsRoutes)
 app.use('/coupons', couponsRoutes)
 app.use('/drivers', driverLicensesRoutes)
 app.use('/bookings', bookingRoutes)
+app.use('/contracts', contractsRoutes)
 
 // app.use(defaultErrorHandler)
 app.listen(process.env.PORT, () => {
