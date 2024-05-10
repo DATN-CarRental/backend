@@ -14,6 +14,7 @@ import { config } from 'dotenv'
 import couponsRoutes from './routes/couponsRoutes.js'
 import driverLicensesRoutes from './routes/driverLicensesRoutes.js'
 import bookingRoutes from './routes/bookingRoutes.js'
+import finalContractsRoutes from './routes/finalContractsRoutes.js'
 
 config()
 const app = express()
@@ -39,6 +40,7 @@ app.use('/coupons', couponsRoutes)
 app.use('/drivers', driverLicensesRoutes)
 app.use('/bookings', bookingRoutes)
 app.use('/contracts', contractsRoutes)
+app.use('/final-contracts', finalContractsRoutes)
 
 // app.use(defaultErrorHandler)
 app.listen(process.env.PORT, () => {

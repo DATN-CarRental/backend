@@ -5,7 +5,7 @@ const bookingsSchema = new mongoose.Schema(
   {
     bookBy: {
       type: mongoose.Types.ObjectId,
-      ref: 'User'
+      ref: 'Users'
     },
     carId: {
       type: mongoose.Types.ObjectId,
