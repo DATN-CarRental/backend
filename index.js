@@ -15,6 +15,7 @@ import couponsRoutes from './routes/couponsRoutes.js'
 import driverLicensesRoutes from './routes/driverLicensesRoutes.js'
 import bookingRoutes from './routes/bookingRoutes.js'
 import finalContractsRoutes from './routes/finalContractsRoutes.js'
+import adminRoutes from './routes/adminRoutes.js'
 
 config()
 const app = express()
@@ -41,6 +42,7 @@ app.use('/drivers', driverLicensesRoutes)
 app.use('/bookings', bookingRoutes)
 app.use('/contracts', contractsRoutes)
 app.use('/final-contracts', finalContractsRoutes)
+app.use('/admin', adminRoutes)
 
 // app.use(defaultErrorHandler)
 app.listen(process.env.PORT, () => {
