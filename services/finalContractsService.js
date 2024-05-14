@@ -45,7 +45,7 @@ export const createFinalContract = async (contractId, payload) => {
         { new: true }
       )
 
-      await Contract.findByIdAndUpdate(contractId, { $set: { status: 'completed' } }, { new: true })
+      await Contract.findByIdAndUpdate(contractId, { $set: { status: 'Đã tất toán' } }, { new: true })
 
       return [finalContractResult, getFinalContract]
     } else {
@@ -75,7 +75,7 @@ export const createFinalContract = async (contractId, payload) => {
           }
         })
 
-      await Contract.findByIdAndUpdate(contractId, { $set: { status: 'completed' } }, { new: true })
+      await Contract.findByIdAndUpdate(contractId, { $set: { status: 'Đã tất toán' } }, { new: true })
 
       return [finalContractResult, getFinalContract]
     }

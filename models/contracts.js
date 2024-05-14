@@ -8,8 +8,8 @@ const contractsSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['processing', 'completed', 'cancel'],
-      default: 'processing'
+      enum: ['Đang thực hiện', 'Đã tất toán', 'Đã Hủy'],
+      default: 'Đang thực hiện'
     }
   },
   { timestamps: true }

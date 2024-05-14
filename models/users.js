@@ -42,8 +42,8 @@ const userSchema = new mongoose.Schema(
     },
     status: {
       type: String, 
-      enum: ['active', 'inactive'],
-      default: 'active'
+      enum: ['Hoạt động', 'Không hoạt động'],
+      default: 'Hoạt động'
     },
     isConfirmed: {
       type: Boolean,

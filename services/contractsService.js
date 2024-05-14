@@ -17,7 +17,7 @@ export const createContract = async (createBy, bookingId, payload) => {
     // Cập nhật trường 'contract' trong bản ghi booking tương ứng
     const booking = await Booking.findByIdAndUpdate(
       bookingId,
-      { contract: savedContract._id, status: 'completed' },
+      { contract: savedContract._id, status: 'Đã có hợp đồng' },
       { new: true } // Để nhận kết quả cập nhật mới
     )
 

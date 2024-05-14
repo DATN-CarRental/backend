@@ -24,7 +24,7 @@ const carsSchema = new mongoose.Schema(
     },
     transmissions: {
       type: String,
-      enum: ['manual', 'auto']
+      enum: ['Số tự động', 'Số sàn']
     },
     description: {
       type: String,
@@ -41,8 +41,8 @@ const carsSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['active', 'inactive'],
-      default: 'active'
+      enum: ['Hoạt động', 'Không hoạt động'],
+      default: 'Hoạt động'
     },
     cost: {
       type: Number
@@ -50,7 +50,13 @@ const carsSchema = new mongoose.Schema(
     totalRatings: {
       type: Number,
       default: 0
-    }
+    },
+    likes: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Users'
+      }
+    ]
   },
   { timestamps: true }
 )
