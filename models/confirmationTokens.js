@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const confirmationTokenSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.ObjectId, ref: "User" },
+    userId: { type: mongoose.Schema.ObjectId, ref: "Users" },
     token: { type: String, index: true },
     confirmedAt: Date,
     confirmationSentAt: Date,

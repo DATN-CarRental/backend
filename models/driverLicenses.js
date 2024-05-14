@@ -16,8 +16,8 @@ const driverLicensesSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['confirmed', 'unconfirmed'],
-      default: 'unconfirmed'
+      enum: ['Chưa xác thực', 'Đã xác thực'],
+      default: 'Chưa xác thực'
     }
   },
   { timestamps: true }

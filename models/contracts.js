@@ -1,15 +1,15 @@
 import mongoose from 'mongoose'
 const contractsSchema = new mongoose.Schema(
   {
-    createBy: { type: mongoose.Types.ObjectId, ref: 'User' },
+    createBy: { type: mongoose.Types.ObjectId, ref: 'Users' },
     bookingId: { type: mongoose.Types.ObjectId, ref: 'Bookings' },
     images: {
       type: Array
     },
     status: {
       type: String,
-      enum: ['processing', 'completed', 'cancel'],
-      default: 'processing'
+      enum: ['Đang thực hiện', 'Đã tất toán', 'Đã Hủy'],
+      default: 'Đang thực hiện'
     }
   },
   { timestamps: true }

@@ -1,12 +1,11 @@
 import mongoose from 'mongoose'
 import moment from 'moment-timezone'
-import { ref } from 'yup'
 
 const bookingsSchema = new mongoose.Schema(
   {
     bookBy: {
       type: mongoose.Types.ObjectId,
-      ref: 'User'
+      ref: 'Users'
     },
     carId: {
       type: mongoose.Types.ObjectId,
@@ -49,8 +48,8 @@ const bookingsSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['processing', 'completed', 'canceled'],
-      default: 'processing'
+      enum: ['Chưa có hợp đồng', 'Đã có hợp đồng', 'Đã hủy'],
+      default: 'Chưa có hợp đồng'
     },
     contract: {
       type: mongoose.Types.ObjectId,
