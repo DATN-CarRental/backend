@@ -6,9 +6,8 @@ import { config } from 'dotenv'
 export const createBooking = async (user_id, carId, payload) => {
   try {
     const { timeBookingStart, timeBookingEnd } = payload
-
     console.log(timeBookingStart, timeBookingEnd)
-    console.log(payload)
+    console.log('payload', payload)
     const bookingStart = moment.utc(timeBookingStart).toDate()
     const bookingEnd = moment.utc(timeBookingEnd).toDate()
     console.log(bookingStart, bookingEnd)
@@ -73,7 +72,7 @@ export const bookRecord = async (carId, payload) => {
     const { timeBookingStart, timeBookingEnd } = payload
 
     console.log(timeBookingStart, timeBookingEnd)
-    console.log(payload)
+    console.log('payload ne: ', payload)
     const startTime = moment.utc(timeBookingStart).toDate()
     const endTime = moment.utc(timeBookingEnd).toDate()
     const existingBookedTimeSlots = await BookedTimeSlot.findOne({
@@ -85,6 +84,7 @@ export const bookRecord = async (carId, payload) => {
     }).session(session)
 
     if (existingBookedTimeSlots) {
+      console.log('Exist time')
       // Resource is already booked, handle accordingly
       throw new Error('Record already booked')
     }

@@ -1,6 +1,7 @@
 import { USER_MESSAGES } from '../constants/messages.js'
 import * as usersService from '../services/usersService.js'
 import { transporter, MailGenerator } from '../utils/nodemailerConfig.js'
+import otpGenerator from 'otp-generator'
 import { config } from 'dotenv'
 config()
 export const register = async (req, res, next) => {
