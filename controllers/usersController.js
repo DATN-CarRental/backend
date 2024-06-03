@@ -51,8 +51,8 @@ export const getUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
   const user_id = req.params.userId
-  const { fullname, address, phoneNumber, gender, dateOfBirth } = req.body
-  const result = await usersService.updateUser(user_id, { fullname, address, phoneNumber, gender, dateOfBirth }, req?.file)
+  const { fullname, address, phoneNumber, gender, dateOfBirth, profilePicture, password } = req.body
+  const result = await usersService.updateUser(user_id, { fullname, address, phoneNumber, gender, dateOfBirth, profilePicture, password }, req?.file)
   return res.json({
     message: USER_MESSAGES.UPDATE_PROFILE_SUCCESS,
     result: result.updateUser,

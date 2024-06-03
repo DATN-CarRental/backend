@@ -17,12 +17,29 @@ export const createFinalContract = async (req, res, next) => {
   }
 }
 
-export const getFinalContractById = async (req, res, next) => {
+export const getFinalContractByUserId = async (req, res, next) => {
   try {
     const createBy = req.decoded_authorization.user_id // Lấy user_id từ req.decoded_authorization
 
-    const result = await finalContractsService.getFinalContractById(createBy)
+    const result = await finalContractsService.getFinalContractByUserId(createBy)
     return res.status(HTTP_STATUS.CREATED).json({
+      message: 'Get final contract successfully',
+      result
+    })
+  } catch (error) {
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      message: 'Something went wrong',
+      error: error.message
+    })
+  }
+}
+
+export const getFinalContractById = async (req, res, next) => {
+  try {
+    const contractId = req.params.contractId // Lấy user_id từ req.decoded_authorization
+
+    const result = await finalContractsService.getFinalContractById(contractId)
+    return res.status(HTTP_STATUS.OK).json({
       message: 'Get final contract successfully',
       result
     })

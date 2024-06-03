@@ -8,7 +8,7 @@ import ApiError from '../utils/ApiError.js'
 
 export const createCar = async (payloadBody) => {
   try {
-    const result = await Car.create({ ...payloadBody })
+    const result = await Car.create({ ...payloadBody, totalRatings: 5 })
     console.log(result)
     return result
   } catch (error) {

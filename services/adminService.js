@@ -91,7 +91,7 @@ export const totalAdminDashboard = async () => {
       {
         $group: {
           _id: null,
-          totalCost: { $sum: '$cost_settlement' }
+          totalCost: { $sum: '$costSettlement' }
         }
       }
     ])
