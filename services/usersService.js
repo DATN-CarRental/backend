@@ -110,6 +110,12 @@ export const updateUser = async (user_id, payload, payloadFile) => {
     if (payloadFile && payloadFile.path) {
       payload.profilePicture = payloadFile.path
     }
+
+    if(payload.password) {
+      payload.password = hashPassword(payload.password).toString()
+    }
+
+    console.log('Payload', payload)
     const updateUser = await User.findByIdAndUpdate(user_id.toString(), { ...payload }, { new: true })
 
     return { updateUser, user_id }

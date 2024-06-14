@@ -10,14 +10,15 @@ import {
 import {
   createFinalContract,
   getFinalContractById,
-  getListFinalContracts
+  getListFinalContracts,
+  getFinalContractByUserId
 } from '../controllers/finalContractsController.js'
 
 const finalContractsRoutes = express.Router()
 
 finalContractsRoutes.get('/listFinalContracts', adminAndStaffValidator, wrapRequestHandler(getListFinalContracts))
-finalContractsRoutes.get('/', staffValidator, wrapRequestHandler(getFinalContractById))
-
+finalContractsRoutes.get('/', staffValidator, wrapRequestHandler(getFinalContractByUserId))
+finalContractsRoutes.get('/:contractId', adminAndStaffValidator, wrapRequestHandler(getFinalContractById))
 finalContractsRoutes.post('/create/:contractId', adminAndStaffValidator, wrapRequestHandler(createFinalContract))
 
 export default finalContractsRoutes

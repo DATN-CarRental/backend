@@ -10,7 +10,6 @@ const finalContractsSchema = new mongoose.Schema(
     costSettlement: { type: Number },
     timeFinish: {
       type: Date,
-
       get: (v) => moment(v).format('YYYY-MM-DD HH:mm'),
       set: (v) => moment(v, 'YYYY-MM-DD HH:mm').toDate()
     },

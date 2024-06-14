@@ -3,6 +3,7 @@ import BookedTimeSlot from '../models/bookedTimeSlots.js'
 import moment from 'moment-timezone'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
+import Car from '../models/cars.js'
 export const createBooking = async (user_id, carId, payload) => {
   try {
     const { timeBookingStart, timeBookingEnd } = payload
@@ -77,6 +78,7 @@ export const bookRecord = async (carId, payload) => {
     const endTime = moment.utc(timeBookingEnd).toDate()
     const existingBookedTimeSlots = await BookedTimeSlot.findOne({
       carId: carId,
+      bookingId: { $ne: null },
       $or: [
         { $and: [{ from: { $gte: startTime } }, { from: { $lt: endTime } }] },
         { $and: [{ to: { $gt: startTime } }, { to: { $lte: endTime } }] }
@@ -194,7 +196,7 @@ export const getDetailBooking = async (bookingId) => {
 }
 export const getBookedTimeSlots = async (carId) => {
   try {
-    const getBookedTimeSlots = await BookedTimeSlot.find({ carId: carId })
+    const getBookedTimeSlots = await BookedTimeSlot.find({ carId: carId, bookingId: { $ne: null } })
     return getBookedTimeSlots
   } catch (error) {
     throw error

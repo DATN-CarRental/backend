@@ -84,10 +84,9 @@ export const createFinalContract = async (contractId, payload) => {
   }
 }
 
-export const getFinalContractById = async (createBy) => {
+export const getFinalContractByUserId = async (createBy) => {
   try {
-    console.log('CREATED_BY', createBy.toString())
-    const getListBooking = await FinalContract.find({})
+    const listFinalContracts = await FinalContract.find({})
       .populate({
         path: 'contractId',
         populate: {
@@ -108,7 +107,43 @@ export const getFinalContractById = async (createBy) => {
         }
       })
 
-    return getListBooking
+    return listFinalContracts
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getFinalContractById = async (contractId) => {
+  try {
+    const finalContract = await FinalContract.find({
+      contractId: contractId.toString()
+    })
+    .populate({
+      path: 'contractId',
+      populate: {
+        path: 'createBy',
+        model: 'Users'
+      }
+    })
+    .populate({
+      path: 'contractId',
+      populate: {
+        path: 'bookingId',
+        model: 'Bookings',
+        populate: [
+          {
+            path: 'bookBy',
+            model: 'Users'
+          },
+          {
+            path: 'carId',
+            model: 'Cars'
+          }
+        ]
+      }
+    })
+
+    return finalContract
   } catch (error) {
     throw error
   }
@@ -116,7 +151,7 @@ export const getFinalContractById = async (createBy) => {
 
 export const getListFinalContracts = async () => {
   try {
-    const getListBooking = await FinalContract.find({})
+    const finalContracts = await FinalContract.find({})
       .populate({
         path: 'contractId',
         populate: {
@@ -136,7 +171,7 @@ export const getListFinalContracts = async () => {
         }
       })
 
-    return getListBooking
+    return finalContracts
   } catch (error) {
     throw error
   }
