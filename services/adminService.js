@@ -3,7 +3,7 @@ import Car from '../models/cars.js'
 import Booking from '../models/bookings.js'
 import Contract from '../models/contracts.js'
 import FinalContract from '../models/finalContracts.js'
-import mongoose from 'mongoose'
+import mongoose, { model } from 'mongoose'
 import { hashPassword } from '../utils/crypto.js'
 
 export const getUsers = async () => {
@@ -153,11 +153,23 @@ export const totalStaffDashboard = async (staffId) => {
 export const getTotalRevenue = async () => {
   try {
     const finalContracts = await FinalContract.find()
+                                              .populate({
+                                                path: 'contractId',
+                                                populate: {
+                                                  path: 'bookingId',
+                                                  model: 'Bookings'
+                                                }
+                                              })
     const currentYear = new Date().getFullYear()
 
     const revenueByMonth = finalContracts.reduce((result, contract) => {
-      const finishDate = new Date(contract.timeFinish)
-
+      console.log("Result ", result)
+      let finishDate = null
+      if (contract.timeFinish === undefined) {
+        finishDate = new Date(contract?.contractId?.bookingId?.timeBookingEnd)
+      } else {
+        finishDate = new Date(contract.timeFinish)
+      }
       const month = finishDate.getMonth() + 1
       const year = finishDate.getFullYear()
 
@@ -177,6 +189,7 @@ export const getTotalRevenue = async () => {
 
       return result
     }, {})
+
 
     const revenueArray = Object.values(revenueByMonth)
     return revenueArray
